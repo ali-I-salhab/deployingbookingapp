@@ -40,7 +40,7 @@ importlib-metadata==4.6.4
 jeepney==0.7.1
 Jinja2==3.0.3
 keyring==23.5.0
-language-selector==0.1
+# language-selector==0.1
 lockfile==0.12.2
 louis==3.20.0
 Mako==1.1.3
