@@ -29,7 +29,7 @@ djangorestframework==3.14.0
 djangorestframework-simplejwt==5.3.1
 djoser==2.2.2
 drf-nested-routers==0.93.5
-duplicity==0.8.21
+# duplicity==0.8.21
 fasteners==0.14.1
 filelock==3.13.1
 frozenlist==1.2.0
