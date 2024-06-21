@@ -45,9 +45,9 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'debug_toolbar.middleware.DebugToolbarMiddleware',
-        "whitenoise.middleware.WhiteNoiseMiddleware",
+  
 
-    'django.middleware.security.SecurityMiddleware',
+    'django.middleware.security.SecurityMiddleware',      "whitenoise.middleware.WhiteNoiseMiddleware",
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -56,13 +56,15 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     
 ]
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+
 
 INTERNAL_IPS = [
     # ...
     '127.0.0.1',
     # ...
 ]
-
+# ----
 ROOT_URLCONF = 'storefront.urls'
 
 TEMPLATES = [
