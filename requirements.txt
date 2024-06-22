@@ -102,7 +102,7 @@ typing_extensions==4.10.0
 # ubuntu-drivers-common==0.0.0
 # ufw==0.36.1
 urllib3==1.26.5
-usb-creator==0.3.7
+# usb-creator==0.3.7
 virtualenv==20.25.0
 virtualenv-clone==0.3.0
 whitenoise==6.6.0
