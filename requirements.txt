@@ -80,7 +80,7 @@ pyOpenSSL==21.0.0
 pyparsing==2.4.7
 PyQt5==5.15.6
 PyQt5-sip==12.9.1
-python-apt==2.4.0+ubuntu1
+# python-apt==2.4.0+ubuntu1
 python-debian===0.1.43ubuntu1
 python-dotenv==1.0.0
 python-gnupg==0.4.8
