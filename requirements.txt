@@ -59,16 +59,16 @@ Pillow==9.0.1
 pipenv==2023.12.1
 platformdirs==4.1.0
 # proton-core==0.1.16
-proton-keyring-linux==0.0.2
-proton-keyring-linux-secretservice==0.0.2
-proton-vpn-api-core==0.23.1
-proton-vpn-connection==0.14.4
-proton-vpn-gtk-app==4.3.1
-proton-vpn-killswitch==0.4.0
-proton-vpn-killswitch-network-manager==0.4.3
-proton-vpn-logger==0.2.1
-proton-vpn-network-manager==0.4.2
-proton-vpn-network-manager-openvpn==0.0.7
+# proton-keyring-linux==0.0.2
+# proton-keyring-linux-secretservice==0.0.2
+# proton-vpn-api-core==0.23.1
+# proton-vpn-connection==0.14.4
+# proton-vpn-gtk-app==4.3.1
+# proton-vpn-killswitch==0.4.0
+# proton-vpn-killswitch-network-manager==0.4.3
+# proton-vpn-logger==0.2.1
+# proton-vpn-network-manager==0.4.2
+# proton-vpn-network-manager-openvpn==0.0.7
 ptyprocess==0.7.0
 pycairo==1.20.1
 pycups==2.0.1
