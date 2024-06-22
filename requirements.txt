@@ -87,7 +87,7 @@ python-gnupg==0.4.8
 python3-openid==3.2.0
 pytz==2022.1
 pyxdg==0.27
-PyYAML==5.4.1
+# PyYAML==5.4.1
 requests==2.31.0
 requests-oauthlib==2.0.0
 SecretStorage==3.3.1
