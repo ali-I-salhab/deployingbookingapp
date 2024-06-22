@@ -107,6 +107,6 @@ virtualenv==20.25.0
 virtualenv-clone==0.3.0
 whitenoise==6.6.0
 xdg==5
-xkit==0.0.0
+# xkit==0.0.0
 yarl==1.7.2
 zipp==1.0.0
