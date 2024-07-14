@@ -3,10 +3,13 @@ from django.db.models.aggregates import Count
 from django.db.models.query import QuerySet
 from django.utils.html import format_html, urlencode
 from django.urls import reverse
+
 from . import models
+from rest_framework.permissions import IsAdminUser
 
 
 class InventoryFilter(admin.SimpleListFilter):
+   
     title = 'inventory'
     parameter_name = 'inventory'
 
@@ -22,7 +25,11 @@ class InventoryFilter(admin.SimpleListFilter):
 
 @admin.register(models.Product)
 class ProductAdmin(admin.ModelAdmin):
+    permission_classes = [IsAdminUser ]
+#  convert collection to be not just a drop down
     autocomplete_fields = ['collection']
+
+    # auto complete field 
     prepopulated_fields = {
         'slug': ['title']
     }
@@ -43,7 +50,7 @@ class ProductAdmin(admin.ModelAdmin):
         if product.inventory < 10:
             return 'Low'
         return 'OK'
-
+# here we create custom actions
     @admin.action(description='Clear inventory')
     def clear_inventory(self, request, queryset):
         updated_count = queryset.update(inventory=0)
@@ -101,7 +108,7 @@ class CustomerAdmin(admin.ModelAdmin):
             orders_count=Count('order')
         )
 
-
+# we use this class to add childrens
 class OrderItemInline(admin.TabularInline):
     autocomplete_fields = ['product']
     min_num = 1

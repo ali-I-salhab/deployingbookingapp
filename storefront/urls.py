@@ -14,19 +14,27 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-
+from django.conf import settings
+from django.conf.urls.static import static
 from django.urls import path, include
 import debug_toolbar
-
+# customize admin
 admin.site.site_header = 'Storefront Admin'
 admin.site.index_title = 'Admin'
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+   
     # here we handling every url start with playground
     path('playground/', include('playground.urls')),
     # if url start with store will handling with store app urls 
         path('store/', include('store.urls')),
-    path('__debug__/', include(debug_toolbar.urls)),    path('auth/', include('djoser.urls')),path('auth/', include('djoser.urls.jwt')),
 
-]
+    path('__debug__/', include(debug_toolbar.urls)),    
+      path('auth/', include('djoser.urls'))
+
+      ,path('auth/', include('djoser.urls.jwt'))   ,
+              path('booking/', include('booking.urls'))
+
+
+]+static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
