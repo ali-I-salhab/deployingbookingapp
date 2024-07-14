@@ -233,10 +233,10 @@ class ExtraServices(models.Model):
     group=models.ForeignKey(Groups,on_delete=models.CASCADE)
     price=models.SmallIntegerField()
 
-class Notification(models.Model):
-    hotel=models.ForeignKey(Hotel,on_delete=models.CASCADE)
-    title=models.CharField(max_length=255)
-    content=models.TextField()
+# class Notification(models.Model):
+#     hotel=models.ForeignKey(Hotel,on_delete=models.CASCADE)
+#     title=models.CharField(max_length=255)
+#     content=models.TextField()
     
     
     
