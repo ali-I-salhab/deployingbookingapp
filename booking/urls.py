@@ -18,11 +18,14 @@ router.register('stopsale',viewset=views.Stopsaleviewset,basename='stopsale')
 router.register('periods',viewset=views.Periodsviewset,basename='periods')
 router.register('rate',viewset=views.Rateviewset,basename='rate')
 router.register('availability',viewset=views.Availabilityviewset,basename='availability')
-router.register('users',viewset=views.Usersviewset,basename='availability')
+
+router.register('users',viewset=views.Usersviewset,basename='users')
 
 router.register('Supplement',viewset=views.Supplementviewset,basename='Supplement')
 
 
+availabilityperiods_router=routers.NestedDefaultRouter(router, 'availability', lookup='availability')
+availabilityperiods_router.register('details', views.Availabilitydetailsviewset, basename='details')
 
 
 
@@ -44,7 +47,7 @@ roombeddetails_router.register('options', views.RoomBedoptionsDetailsviewset, ba
 urlpatterns = [
    
 ]
-urlpatterns+= router.urls+roomrguestoption_router.urls+roombedoption_router.urls+updatedetails_router.urls+roombeddetails_router.urls+groupscountrie_router.urls+roomGuestdetails_router.urls
+urlpatterns+= router.urls+availabilityperiods_router.urls+roomrguestoption_router.urls+roombedoption_router.urls+updatedetails_router.urls+roombeddetails_router.urls+groupscountrie_router.urls+roomGuestdetails_router.urls
 
 
 # router.register('products', views.ProductViewSet, basename='products')

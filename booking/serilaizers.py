@@ -1,6 +1,6 @@
 from rest_framework import serializers
 import re
-from .models import Availability, BedOptionDetails, GroupCountries, GuestOptionDetails, Hotel, Periods, Rate,Room,Photos,MealPlan,Icon,Groups,Manualreservations,RoomBedOptions,RoomGuestoption, StopSale, Supplement, Update, UpdateDetails, Users
+from .models import Availability, AvailabilityperoiodsDetails, BedOptionDetails, GroupCountries, GuestOptionDetails, Hotel, Periods, Rate,Room,Photos,MealPlan,Icon,Groups,Manualreservations,RoomBedOptions,RoomGuestoption, StopSale, Supplement, Update, UpdateDetails, Users
 class ListHotelsSerializer(serializers.ModelSerializer):
       
       class Meta:
@@ -29,7 +29,7 @@ class HotelSerializer(serializers.ModelSerializer):
                 print(oldlogo.logo.url)
                 if(self.validated_data.get('logo')==None):
                         print(self.validated_data)
-                        self.validated_data['logo']=oldlogo.logo.url[6:]
+                        self.validated_data['logo']=oldlogo.logo.url[7:]
                         print('none')    
             print('-------------------new logo--------------=')
             print(self.validated_data.get('logo'))
@@ -96,11 +96,11 @@ class BedoptionSerializer(serializers.ModelSerializer):
       details=serializers.SerializerMethodField(method_name='get_setails')
       def get_setails(self, obj):
             print('details Customizing ------------------>>>>>')
-            print(self.context.get('view'))
+            print(obj.room.id)
             
             queryset=None
-            if(self.context.get('view') is not None):
-                  queryset= BedOptionDetails.objects.filter(room__room=self.context.get('view').kwargs['pk'])
+           
+            queryset= BedOptionDetails.objects.filter(room__room=obj.room.id)
             return BedOptionDetailsSerializer(queryset, many=True).data
 
       userchoices=Icon.objects.filter(type='b')
@@ -379,13 +379,33 @@ class UpdateSerializer(serializers.ModelSerializer):
 
 
 
+class AvailabilitydetailsSerializer(serializers.ModelSerializer):
+      class Meta:
+            model=AvailabilityperoiodsDetails
+            fields='__all__'
 
 
 
 class AvailabilitySerializer(serializers.ModelSerializer):
+      data = serializers.SerializerMethodField()
+      # def create(self, validated_data):
+      #       print(validated_data)
+            
+      #       return super().create(validated_data)
+      
+      def get_data(self, obj):
+
+                  print("retrun relatedupdateserilizer serilizer")
+                  print(obj.id)
+                  query=AvailabilityperoiodsDetails.objects.filter(availability=obj.id)
+                  print(query.count())
+                  a=AvailabilitydetailsSerializer(data=query,many=True)
+                  a.is_valid()
+                  return a.data
+
       class Meta:
             model=Availability
-            fields='__all__'
+            fields=['id','type','val','data','room']
 class SupplementSerializer(serializers.ModelSerializer):
       class Meta:
             model=Supplement

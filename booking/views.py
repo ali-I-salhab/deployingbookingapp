@@ -2,8 +2,8 @@ from django.shortcuts import render
 from rest_framework.mixins import CreateModelMixin,RetrieveModelMixin,ListModelMixin,UpdateModelMixin,DestroyModelMixin
 from rest_framework.generics import GenericAPIView
 from rest_framework.viewsets import GenericViewSet,ModelViewSet
-from .models import BedOptionDetails, GroupCountries, GuestOptionDetails, Hotel,Icon,Groups,MealPlan, Periods,Photos, Rate,Room,Manualreservations, RoomBedOptions, RoomGuestoption, StopSale, Supplement, Update, UpdateDetails, Users
-from .serilaizers import AddRoomSerializer, AvailabilitySerializer, BedOptionDetailsSerializer,BedoptionSerializer, GroupCountriesSerializer, GuestOptionDetailsSerializer, GuetsoptionsSerializer,IconsSerializer, HotelSerializer,ManualReservationSerilaizer,GroupSerializer, PeriodsSerializer, RateSerializer,RoomSerializer,PhotosSerializer,MealplanlSerializer, RoombedoptionSerializer, StopSaleSerializer, SupplementSerializer, UpdateDetailsSerializer,UpdateHotelserializer,ListHotelsSerializer, UpdateSerializer, UsersSerializer
+from .models import Availability, AvailabilityperoiodsDetails, BedOptionDetails, GroupCountries, GuestOptionDetails, Hotel,Icon,Groups,MealPlan, Periods,Photos, Rate,Room,Manualreservations, RoomBedOptions, RoomGuestoption, StopSale, Supplement, Update, UpdateDetails, Users
+from .serilaizers import AddRoomSerializer, AvailabilitySerializer, AvailabilitydetailsSerializer, BedOptionDetailsSerializer,BedoptionSerializer, GroupCountriesSerializer, GuestOptionDetailsSerializer, GuetsoptionsSerializer,IconsSerializer, HotelSerializer,ManualReservationSerilaizer,GroupSerializer, PeriodsSerializer, RateSerializer,RoomSerializer,PhotosSerializer,MealplanlSerializer, RoombedoptionSerializer, StopSaleSerializer, SupplementSerializer, UpdateDetailsSerializer,UpdateHotelserializer,ListHotelsSerializer, UpdateSerializer, UsersSerializer
 # Create your views here.
 from rest_framework.parsers import MultiPartParser,FormParser
 from django_filters.rest_framework import DjangoFilterBackend
@@ -44,12 +44,16 @@ class Hotelviewset(ModelViewSet):
             
         #     Hotel.objects.get(id=self.kwargs['pk']).logo.delete(save=True)
         if(self.request.method=='DELETE'):
+            print('delete method ---------->')
+            # hotel/logos/Frame_48096168_vpZytal.png
+            print(  Hotel.objects.get(id=self.kwargs['pk']).logo)
             Hotel.objects.get(id=self.kwargs['pk']).logo.delete(save=True)
         print(self.request.user)
         return Hotel.objects.filter(user=self.request.user.id)
     serializer_class=HotelSerializer
 class Groupviewset(ModelViewSet):
     def create(self, request, *args, **kwargs):
+        print("create ")
         group= super().create(request, *args, **kwargs)
         hotel=Hotel.objects.get(id=group.data['hotel'])
         rates=Rate.objects.all().filter(hotel=group.data['hotel'])
@@ -61,6 +65,7 @@ class Groupviewset(ModelViewSet):
                                 continue
                             else:
                                 Rate.objects.create(hotel=hotel,room=r,mealplan=m,group=g,period=p,netrate=None)
+        return group                            
     filter_backends=[DjangoFilterBackend]
     filterset_fields=['hotel']
     http_method_names = ['get', 'post', 'patch', 'delete']
@@ -73,6 +78,7 @@ class Groupviewset(ModelViewSet):
         userhotel=Hotel.objects.filter(user=self.request.user.id)
         my_values = [item.id for item in userhotel]
         print(my_values)
+        
         return Groups.objects.filter(hotel__in=my_values)
 
     serializer_class=GroupSerializer
@@ -213,9 +219,15 @@ class RoomBedoptionsviewset(ModelViewSet):
 
 
 class IconsViewset(ModelViewSet):
+
     filter_backends=[DjangoFilterBackend]
     filterset_fields=['type']
-    queryset=Icon.objects.all()
+    def get_queryset(self):
+        if(self.request.method=='DELETE'):
+            Icon.objects.get(id=self.kwargs['pk']).news_img.delete(save=True)
+        print(self.request.user)
+        return Icon.objects.all()
+ 
     serializer_class=    IconsSerializer    
 class ManualReservation(CreateModelMixin,RetrieveModelMixin,ListModelMixin,UpdateModelMixin,GenericViewSet):
     queryset=Manualreservations.objects.all()
@@ -318,6 +330,8 @@ class Rateviewset(ModelViewSet):
 
 
 class Updatesviewset(ModelViewSet):
+  
+
     filter_backends=[DjangoFilterBackend]
     filterset_fields=['hotel']
 
@@ -341,12 +355,38 @@ class UpdateDetailsviewset(ModelViewSet):
     queryset=UpdateDetails.objects.all()
     serializer_class= UpdateDetailsSerializer  
 class Availabilityviewset(ModelViewSet):
+    def perform_create(self, serializer):
+        print("=========================+++++++++++++++++++++++")
+        print('after create new availabiltuy object')
+        print(self.request.data['type'])
+        new_availability=serializer.save()
+        print(new_availability.id)
+        userhotel=Hotel.objects.filter(user=self.request.user.id)
+        my_values = [item.id for item in userhotel]
+        periods=Periods.objects.filter(hotel__in=my_values)
+        for p in periods:
+            if self.request.data['type']=='all':
+                 AvailabilityperoiodsDetails.objects.create(availability=new_availability,period=p,val=self.request.data['val'])
+            else:
+                 AvailabilityperoiodsDetails.objects.create(availability=new_availability,period=p)
+        return super().perform_create(serializer)
     def get_serializer_context(self):
-        print("======================update serilaizer")
-        print(self.kwargs)
-        return {'update_id':self.kwargs['updates_pk']}
-    queryset=UpdateDetails.objects.all()
+       user=self.request.user.id
+
+
+        
+       return {'userid':user}
+
+    queryset=Availability.objects.all()
     serializer_class= AvailabilitySerializer  
+
+class Availabilitydetailsviewset(ModelViewSet):
+
+    def get_queryset(self):
+        print("Availabilitydetailsviewset------------->")
+        print(self.kwargs)
+        return AvailabilityperoiodsDetails.objects.filter(availability=self.kwargs['availability_pk'])
+    serializer_class= AvailabilitydetailsSerializer      
 class Usersviewset(ModelViewSet):
     # def get_serializer_context(self):
     #     print("======================update serilaizer")

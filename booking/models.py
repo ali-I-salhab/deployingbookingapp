@@ -97,7 +97,7 @@ class Room(models.Model):
     
     
     def __str__(self) -> str:
-        return f'{self.namear} {self.nameen}'
+        return f'{self.id}'
 class RoomPhotos(models.Model):
 
     room=models.ForeignKey(Room,on_delete=models.CASCADE,related_name='photos')
@@ -204,6 +204,7 @@ class Availability(models.Model):
 class AvailabilityperoiodsDetails(models.Model):
     period=models.ForeignKey(Periods,on_delete=models.CASCADE)
     availability=models.ForeignKey(Availability,on_delete=models.CASCADE)
+    val=models.IntegerField(null=True)
 
 
     
@@ -233,10 +234,10 @@ class ExtraServices(models.Model):
     group=models.ForeignKey(Groups,on_delete=models.CASCADE)
     price=models.SmallIntegerField()
 
-# class Notification(models.Model):
-#     hotel=models.ForeignKey(Hotel,on_delete=models.CASCADE)
-#     title=models.CharField(max_length=255)
-#     content=models.TextField()
+class Notification(models.Model):
+    hotel=models.ForeignKey(Hotel,on_delete=models.CASCADE)
+    title=models.CharField(max_length=255)
+    content=models.TextField()
     
     
     
