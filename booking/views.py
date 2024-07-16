@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from rest_framework.mixins import CreateModelMixin,RetrieveModelMixin,ListModelMixin,UpdateModelMixin,DestroyModelMixin
 from rest_framework.generics import GenericAPIView
 from rest_framework.viewsets import GenericViewSet,ModelViewSet
@@ -7,7 +6,6 @@ from .serilaizers import AddRoomSerializer, AvailabilitySerializer, Availability
 # Create your views here.
 from rest_framework.parsers import MultiPartParser,FormParser
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework.decorators import action
 from rest_framework.response import Response
 class Hotelviewset(ModelViewSet):
     parser_classes = [MultiPartParser, FormParser]

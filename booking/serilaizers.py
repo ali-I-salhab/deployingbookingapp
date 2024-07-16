@@ -1,6 +1,6 @@
 from rest_framework import serializers
 import re
-from .models import Availability, AvailabilityperoiodsDetails, BedOptionDetails, GroupCountries, GuestOptionDetails, Hotel, Periods, Rate,Room,Photos,MealPlan,Icon,Groups,Manualreservations,RoomBedOptions,RoomGuestoption, StopSale, Supplement, Update, UpdateDetails, Users
+from .models import Availability, AvailabilityperoiodsDetails, BedOptionDetails, GroupCountries, GuestOptionDetails, Hotel, Icon, Periods, Rate,Room,Photos,MealPlan,Groups,Manualreservations,RoomBedOptions,RoomGuestoption, StopSale, Supplement, Update, UpdateDetails, Users
 class ListHotelsSerializer(serializers.ModelSerializer):
       
       class Meta:
@@ -77,11 +77,11 @@ class RoombedoptionSerializer(serializers.ModelSerializer):
             
       #       queryset= BedOptionDetails.objects.filter(room__room=self.context.get('view').kwargs['pk'])
       #       return BedOptionDetailsSerializer(queryset, many=True).data
-
-      userchoices=Icon.objects.filter(type='b')
-      my_choices = [item.name for item in userchoices]
+#  here the error ----------->
+      # userchoices=Icon.objects.filter(type='b')
+      # my_choices = [item.name for item in userchoices]
       print("------------------->")
-      print(my_choices)
+      # print(my_choices)
       def create(self, validated_data):
             print('from create bed option seralizer')
             print(self.context['roomid'])
@@ -103,10 +103,10 @@ class BedoptionSerializer(serializers.ModelSerializer):
             queryset= BedOptionDetails.objects.filter(room__room=obj.room.id)
             return BedOptionDetailsSerializer(queryset, many=True).data
 
-      userchoices=Icon.objects.filter(type='b')
-      my_choices = [item.name for item in userchoices]
-      print("------------------->")
-      print(my_choices)
+      # userchoices=Icon.objects.filter(type='b')
+      # my_choices = [item.name for item in userchoices]
+      # print("------------------->")
+      # print(my_choices)
       def create(self, validated_data):
             print('from create bed option seralizer')
             print(self.context['roomid'])
@@ -121,9 +121,9 @@ class BedOptionDetailsSerializer(serializers.ModelSerializer):
       details=BedoptionSerializer(many=True,read_only=True)
       
 
-      userchoices=Icon.objects.filter(type='b')
-      my_choices = [item.name for item in userchoices]
-      name=serializers.ChoiceField(choices=my_choices)
+      # userchoices=Icon.objects.filter(type='b')
+      # my_choices = [item.name for item in userchoices]
+      name=serializers.CharField(max_length=255)
 
 
       def create(self, validated_data):
@@ -139,9 +139,9 @@ class BedOptionDetailsSerializer(serializers.ModelSerializer):
             fields=['id','name','number','details']
 
 class GuestOptionDetailsSerializer(serializers.ModelSerializer):
-      userchoices=Icon.objects.filter(type='g')
-      my_choices = [item.name for item in userchoices]
-      name=serializers.ChoiceField(choices=my_choices)
+      # userchoices=Icon.objects.filter(type='g')
+      # my_choices = [item.name for item in userchoices]
+      name=serializers.CharField(max_length=255)
 
 
       def create(self, validated_data):
@@ -159,10 +159,10 @@ class GuestOptionDetailsSerializer(serializers.ModelSerializer):
 class GuetsoptionsSerializer(serializers.ModelSerializer):
       details=GuestOptionDetailsSerializer(many=True,read_only=True)
 
-      userchoices=Icon.objects.filter(type='g')
-      my_choices = [item.name for item in userchoices]
-      print("------------------->")
-      print(my_choices)
+      # userchoices=Icon.objects.filter(type='g')
+      # my_choices = [item.name for item in userchoices]
+      # print("------------------->")
+      # print(my_choices)
       def create(self, validated_data):
             print('from create bed option seralizer')
             print(self.context['roomid'])
@@ -394,7 +394,12 @@ class AvailabilitySerializer(serializers.ModelSerializer):
       #       return super().create(validated_data)
       
       def get_data(self, obj):
-
+            print(obj.type)
+ 
+            if obj.type=='all':
+                  print("retrun fixedupdateserilizer serilizer")
+                  return obj.val
+            if obj.type=='c':
                   print("retrun relatedupdateserilizer serilizer")
                   print(obj.id)
                   query=AvailabilityperoiodsDetails.objects.filter(availability=obj.id)

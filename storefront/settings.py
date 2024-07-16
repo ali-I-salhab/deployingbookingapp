@@ -32,15 +32,14 @@ INSTALLED_APPS = [
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.messages',
-    'django.contrib.staticfiles','django_filters',
+    'django.contrib.staticfiles',
+    'django_filters',
     'rest_framework',    'djoser',
 
-    'playground',
-    'debug_toolbar',
-    'store',
-    'coree',
-    'tags',
-    'likes',  'superadmin','booking','storecustom'
+  
+    'debug_toolbar'
+ 
+    ,'booking'
 ]
 
 MIDDLEWARE = [
@@ -160,7 +159,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # here we change the main user auth class 
 # to make email field unique 
 # CUSTOMIZING THE USER MODEL
-AUTH_USER_MODEL='coree.User'
+# AUTH_USER_MODEL='coree.User'
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
@@ -168,15 +167,15 @@ REST_FRAMEWORK = {
     ),
 }
 
-DJOSER = {
+# DJOSER = {
 
-    'SERIALIZERS': {
+#     'SERIALIZERS': {
       
-   'user_create': 'coree.serializers.UserCreateSerializer',
-   'current_user': 'coree.serializers.CurrentUserSerializer',
+#    'user_create': 'coree.serializers.UserCreateSerializer',
+#    'current_user': 'coree.serializers.CurrentUserSerializer',
 
-    },
-}
+#     },
+# }
 SIMPLE_JWT = {
     'AUTH_HEADER_TYPES': ('JWT',),
     "ACCESS_TOKEN_LIFETIME": timedelta(days=10),

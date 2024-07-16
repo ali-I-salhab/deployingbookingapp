@@ -25,7 +25,7 @@ router.register('Supplement',viewset=views.Supplementviewset,basename='Supplemen
 
 
 availabilityperiods_router=routers.NestedDefaultRouter(router, 'availability', lookup='availability')
-availabilityperiods_router.register('details', views.Availabilitydetailsviewset, basename='details')
+availabilityperiods_router.register('detalils', views.Availabilitydetailsviewset, basename='detalils')
 
 
 

@@ -204,7 +204,6 @@ class Availability(models.Model):
 class AvailabilityperoiodsDetails(models.Model):
     period=models.ForeignKey(Periods,on_delete=models.CASCADE)
     availability=models.ForeignKey(Availability,on_delete=models.CASCADE)
-    val=models.IntegerField(null=True)
 
 
     

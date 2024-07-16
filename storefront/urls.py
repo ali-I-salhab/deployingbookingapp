@@ -25,10 +25,6 @@ admin.site.index_title = 'Admin'
 urlpatterns = [
     path('admin/', admin.site.urls),
    
-    # here we handling every url start with playground
-    path('playground/', include('playground.urls')),
-    # if url start with store will handling with store app urls 
-        path('store/', include('store.urls')),
 
     path('__debug__/', include(debug_toolbar.urls)),    
       path('auth/', include('djoser.urls'))
