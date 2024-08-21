@@ -1,11 +1,14 @@
-from django.urls import path,include
+from django.urls import path
 from . import views
 from rest_framework_nested import routers
 
 
+
 router=routers.DefaultRouter()
 router.register('hotels',viewset=views.Hotelviewset,basename='hotels')
+
 router.register('icons',viewset=views.IconsViewset,basename='icons')
+
 
 router.register('photos',viewset=views.Photosviewset,basename='photos')
 router.register('updates',viewset=views.Updatesviewset,basename='updates')
@@ -22,13 +25,20 @@ router.register('availability',viewset=views.Availabilityviewset,basename='avail
 router.register('users',viewset=views.Usersviewset,basename='users')
 
 router.register('Supplement',viewset=views.Supplementviewset,basename='Supplement')
+router.register('Notifications',viewset=views.Notificationsviewset,basename='Notifications')
+router.register('emails',viewset=views.Emailsviewset,basename='Email')
+
+
 
 
 availabilityperiods_router=routers.NestedDefaultRouter(router, 'availability', lookup='availability')
 availabilityperiods_router.register('detalils', views.Availabilitydetailsviewset, basename='detalils')
 
+contractattachmnet_router=routers.NestedDefaultRouter(router, 'hotels', lookup='hotels')
+contractattachmnet_router.register('contract', views.Contractviewset, basename='Contractviewset')
 
-
+photos_router=routers.NestedDefaultRouter(router, 'hotels', lookup='hotels')
+photos_router.register('photos', views.SuperadminPhotosviewset, basename='Contractviewset')
 
 groupscountrie_router=routers.NestedDefaultRouter(router, 'groups', lookup='groups')
 groupscountrie_router.register('countries', views.GroupCountriesViewset, basename='guests-items')
@@ -44,10 +54,16 @@ roombedoption_router.register('beds', views.RoomBedoptionsviewset, basename='bed
 roombeddetails_router= routers.NestedDefaultRouter(roombedoption_router, 'beds', lookup='details')
 roombeddetails_router.register('options', views.RoomBedoptionsDetailsviewset, basename='setails')
 # _________________________________________________
-urlpatterns = [
+urlpatterns = [   
+
+    
+        path('transformers/', 
+         views.FileUploadView.as_view()
+         , 
+         name = 'employee-list'),
    
 ]
-urlpatterns+= router.urls+availabilityperiods_router.urls+roomrguestoption_router.urls+roombedoption_router.urls+updatedetails_router.urls+roombeddetails_router.urls+groupscountrie_router.urls+roomGuestdetails_router.urls
+urlpatterns+= router.urls+photos_router.urls+contractattachmnet_router.urls+availabilityperiods_router.urls+roomrguestoption_router.urls+roombedoption_router.urls+updatedetails_router.urls+roombeddetails_router.urls+groupscountrie_router.urls+roomGuestdetails_router.urls
 
 
 # router.register('products', views.ProductViewSet, basename='products')

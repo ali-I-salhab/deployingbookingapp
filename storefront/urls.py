@@ -22,15 +22,26 @@ import debug_toolbar
 admin.site.site_header = 'Storefront Admin'
 admin.site.index_title = 'Admin'
 
+from django.urls import path
+from core.views import security_txt
 urlpatterns = [
-    path('admin/', admin.site.urls),
+
+
+
+    # ...
+    path(".well-known/assetlinks.json", security_txt),
+
+    path("auth/", include("djoser.social.urls")),
+
+path('admin/', admin.site.urls),
    
 
     path('__debug__/', include(debug_toolbar.urls)),    
       path('auth/', include('djoser.urls'))
 
       ,path('auth/', include('djoser.urls.jwt'))   ,
-              path('booking/', include('booking.urls'))
+              path('booking/', include('booking.urls')),
+
 
 
 ]+static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
