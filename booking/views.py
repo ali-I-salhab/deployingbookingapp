@@ -56,17 +56,21 @@ class FileUploadView(APIView):
 									 	
 
     def put(self, request, format=None):
+        print("upload file request ---------------here is request data")
         print(request.data)
         # send_mail("from booking app","hellow word","settings.EMAIL_HOST_USER",["alysalhab5@gmail.com"])
         try:
+            print("upload file request ----try catch bloc-----------here is request data")
+
             file_obj = request.data['file']
             file_content = file_obj.read()
             df = pd.read_excel(BytesIO(file_content), engine='openpyxl')
             df=pd.DataFrame(df)
             print('current usrt is ')
-            print(user)
           
             user=User.objects.get(id=self.request.user.id)
+            print(user)
+
       
             df1 = df.replace(np.nan, None)
 
@@ -107,7 +111,10 @@ class FileUploadView(APIView):
                       
                       ) for i,j in  df1.iterrows()
             ]
+            print("before create hotelssssssssssssssssss")
+
             Hotel.objects.bulk_create(hotels)
+            print("after create hotelssssssssssssssssss")
       
 
         
@@ -157,8 +164,8 @@ class Hotelviewset(ModelViewSet):
             return SuperAdminListHotelsSerializer
     
     def get_queryset(self):
-        device = FCMDevice.objects.first()
-        device.send_message( Message(notification=Notification(title="title", body="body", image="image_url")))
+        # device = FCMDevice.objects.first()
+        # device.send_message( Message(notification=Notification(title="title", body="body", image="image_url")))
         # send_fcm_message("ecTeTKL_RKuD9JSKuXVCCp:APA91bG1Aev00a8SvXRYY3UiUmeV6a-H87qGdyEWZ175K9cqsfLg8GABZ185zoHoT2U6PTaIIIlxt3w5oAqJa8e03srQkfQqgYONXa0OtzR6xTafXTyj6rHXmb4o6m2W5EHdemoO24g0","django from token","this is me")
 
       
